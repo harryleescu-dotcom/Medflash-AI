@@ -1,0 +1,5 @@
+{
+  "name": "MedFlash AI",
+  "description": "Transform medical study materials (PDF, PPT) into high-yield Anki flashcards instantly using Gemini 2.5.",
+  "requestFramePermissions": []
+}
