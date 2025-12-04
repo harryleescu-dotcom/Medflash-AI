@@ -1,16 +1,21 @@
+
 export interface Flashcard {
   id: string;
   front: string;
   back: string;
   tags: string[];
+  boundingBox?: number[]; // [ymin, xmin, ymax, xmax] of the LABEL
+  structureBoundingBox?: number[]; // [ymin, xmin, ymax, xmax] of the ANATOMY
+  image?: string; // Base64 string of the processed card image
 }
 
 export enum ProcessingStatus {
   IDLE = 'IDLE',
   READING_FILE = 'READING_FILE',
-  ANALYZING = 'ANALYZING', // New state
-  REVIEW_CONFIG = 'REVIEW_CONFIG', // New state for user adjustment
+  ANALYZING = 'ANALYZING',
+  REVIEW_CONFIG = 'REVIEW_CONFIG',
   GENERATING = 'GENERATING',
+  PROCESSING_IMAGES = 'PROCESSING_IMAGES', // New step for client-side cropping
   COMPLETE = 'COMPLETE',
   ERROR = 'ERROR'
 }
@@ -20,6 +25,8 @@ export interface DocumentAnalysis {
   topic: string;
   suggestedCount: number;
   reasoning: string;
+  hasImages: boolean;
+  imageCountEstimate: string;
 }
 
 export interface AppState {
@@ -35,4 +42,11 @@ export interface GenerationPreferences {
   focusArea: string;
   cardCount: number;
   detailedContext: boolean;
+}
+
+// Declare JSZip for global usage since it's loaded via script tag
+declare global {
+  interface Window {
+    JSZip: any;
+  }
 }
